@@ -1,8 +1,27 @@
 # AD Homolog Ator
 
-Ferramenta para povoamento e simulação de ambiente Active Directory para laboratórios e testes.
+Ferramenta para automatizar a criação e simulação de ambientes Active Directory para testes e homologação de desenvolvimentos.
 
-## Uso Rápido
+### Sobre o Projeto
+
+Este projeto nasceu da necessidade recorrente de criar ambientes Active Directory para testes e homologações. Durante o desenvolvimento de automações e scripts para AD, é crucial ter um ambiente que simule situações reais e casos diversos, como:
+
+- Estruturas organizacionais complexas
+- Histórico de logins distribuídos no tempo
+- Dados de usuários com atributos preenchidos
+- Grupos e permissionamentos realistas
+- Simulação de atividades diárias
+
+A criação manual destes ambientes é trabalhosa e consome tempo significativo do processo de desenvolvimento. Esta ferramenta automatiza todo esse processo, permitindo que desenvolvedores e administradores de sistemas:
+
+- Criem rapidamente um ambiente AD completo
+- Simulem atividades de usuários ao longo do tempo
+- Testem scripts e automações em um ambiente próximo ao real
+- Validem comportamentos em diferentes cenários
+- Reduzam o tempo de preparação de ambientes de homologação
+
+
+### Uso Rápido
 
 1. Configure o TLS 1.2:
 ```powershell
@@ -21,7 +40,7 @@ $Script = Invoke-WebRequest https://raw.githubusercontent.com/pobruno/ad-homolog
 Invoke-Expression "$($Script.Content)"
 ```
 
-## Descrição de Scripts
+### Descrição de Scripts
 
 Este projeto contém scripts PowerShell para:
 
@@ -40,7 +59,7 @@ Este projeto contém scripts PowerShell para:
    - Executa logons distribuídos temporalmente
    - Mantém histórico realístico de acessos
 
-## Parâmetros da Simulação de Logons
+### Parâmetros da Simulação de Logons
 
 O script de simulação aceita os seguintes parâmetros:
 
@@ -54,7 +73,7 @@ $Script = Invoke-WebRequest https://raw.githubusercontent.com/pobruno/ad-homolog
 Invoke-Expression "$($Script.Content) -DataInicio 01/01/2024 -DataFim 31/12/2024 -Runs 50"
 ```
 
-## Estrutura Gerada
+### Estrutura Gerada
 
 O script de povoamento cria:
 - OUs por cidade (Joinville, São Paulo, Curitiba, etc)
@@ -63,7 +82,7 @@ O script de povoamento cria:
 - Grupos de segurança por departamento
 - Usuários com atributos preenchidos
 
-## Objetivos Futuros
+### Objetivos Futuros
 
 - [ ] Parametrização da senha padrão via linha de comando
 - [ ] Simulação de logs de auditoria (login failures, password changes, etc)
