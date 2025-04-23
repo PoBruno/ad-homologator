@@ -38,20 +38,50 @@ function Simulate-LogonAll {
     param(
         [array] $Users,
         [string] $LdapPath,
-        [string] $Password
+        [string] $Password,
+        [array] $Dates
     )
-    # embaralha ordem antes de cada rodada
-    $shuf = $Users | Get-Random -Count $Users.Count
-    foreach ($u in $shuf) {
+    
+    # Distribui os usuários igualmente entre as datas
+    $usersPerDate = [math]::Ceiling($Users.Count / $Dates.Count)
+    
+    # Embaralha todos os usuários uma única vez
+    $shuffledUsers = $Users | Get-Random -Count $Users.Count
+    
+    # Divide os usuários em grupos
+    $userGroups = for ($i = 0; $i -lt $Dates.Count; $i++) {
+        $start = $i * $usersPerDate
+        $shuffledUsers[$start..([math]::Min($start + $usersPerDate - 1, $shuffledUsers.Count - 1))]
+    }
+
+    # Para cada data, executa o login do grupo correspondente
+    for ($i = 0; $i -lt $Dates.Count; $i++) {
+        $dt = $Dates[$i]
+        $groupUsers = $userGroups[$i]
+        
+        if (-not $groupUsers) { continue }
+        
+        Write-Host "`n==> Ajustando data para $($dt.ToString('dd/MM/yyyy HH:mm:ss'))"
         try {
-            $entry = New-Object System.DirectoryServices.DirectoryEntry(
-                $LdapPath, $u.UserPrincipalName, $Password
-            )
-            $null = $entry.NativeObject
-            #Write-Host "  [OK]   $($u.SamAccountName)"
+            Set-Date -Date $dt -ErrorAction Stop
         }
         catch {
-            #Write-Warning "  [FAIL] $($u.SamAccountName): $($_.Exception.Message)"
+            Write-Warning "Falha em Set-Date: $($_.Exception.Message)"
+            continue
+        }
+
+        Write-Host "Simulando logon para $($groupUsers.Count) usuários..."
+        foreach ($u in $groupUsers) {
+            try {
+                $entry = New-Object System.DirectoryServices.DirectoryEntry(
+                    $LdapPath, $u.UserPrincipalName, $Password
+                )
+                $null = $entry.NativeObject
+                #Write-Host "  [OK]   $($u.SamAccountName)"
+            }
+            catch {
+                #Write-Warning "  [FAIL] $($u.SamAccountName): $($_.Exception.Message)"
+            }
         }
     }
 }
@@ -104,7 +134,8 @@ foreach ($dt in $dates) {
     }
 
     Write-Host "Simulando logon para $($allUsers.Count) usuários..."
-    Simulate-LogonAll -Users $allUsers -LdapPath $ldapPath -Password $fixedPwd
+    Simulate-LogonAll -Users $allUsers -LdapPath $ldapPath -Password $fixedPwd -Dates $dates
+
 }
 
 # restaura data original
