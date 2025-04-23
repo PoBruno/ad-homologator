@@ -48,10 +48,10 @@ function Simulate-LogonAll {
                 $LdapPath, $u.UserPrincipalName, $Password
             )
             $null = $entry.NativeObject
-            Write-Host "  [OK]   $($u.SamAccountName)"
+            #Write-Host "  [OK]   $($u.SamAccountName)"
         }
         catch {
-            Write-Warning "  [FAIL] $($u.SamAccountName): $($_.Exception.Message)"
+            #Write-Warning "  [FAIL] $($u.SamAccountName): $($_.Exception.Message)"
         }
     }
 }
