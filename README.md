@@ -2,26 +2,6 @@
 
 Ferramenta para povoamento e simulação de ambiente Active Directory para laboratórios e testes.
 
-## Descrição
-
-Este projeto contém scripts PowerShell para:
-
-1. **ADObject_Populate.ps1**: Script de povoamento que:
-   - Cria estrutura organizacional com múltiplas OUs
-   - Gera usuários com dados realísticos
-   - Organiza por departamentos e localidades
-   - Define grupos de segurança
-   - Configura atributos padrão (email, telefone, cargo, etc)
-   - Senha padrão para todos usuários: Pa$$w0rd
-
-2. **ADUser_lastLogon_simulation.ps1**: Script de simulação de logons que:
-   - Simula acessos de usuários em datas aleatórias
-   - Atualiza lastLogonTimestamp dos objetos
-   - Permite definir período de simulação
-   - Executa logons distribuídos temporalmente
-   - Mantém histórico realístico de acessos
-
-
 ## Uso Rápido
 
 1. Configure o TLS 1.2:
@@ -40,6 +20,25 @@ Invoke-Expression "$($Script.Content)"
 $Script = Invoke-WebRequest https://raw.githubusercontent.com/pobruno/ad-homologator/main/scripts/ADUser_lastLogon_simulation.ps1
 Invoke-Expression "$($Script.Content)"
 ```
+
+## Descrição de Scripts
+
+Este projeto contém scripts PowerShell para:
+
+1. **ADObject_Populate.ps1**: Script de povoamento que:
+   - Cria estrutura organizacional com múltiplas OUs
+   - Gera usuários com dados realísticos
+   - Organiza por departamentos e localidades
+   - Define grupos de segurança
+   - Configura atributos padrão (email, telefone, cargo, etc)
+   - Senha padrão para todos usuários: Pa$$w0rd
+
+2. **ADUser_lastLogon_simulation.ps1**: Script de simulação de logons que:
+   - Simula acessos de usuários em datas aleatórias
+   - Atualiza lastLogonTimestamp dos objetos
+   - Permite definir período de simulação
+   - Executa logons distribuídos temporalmente
+   - Mantém histórico realístico de acessos
 
 ## Parâmetros da Simulação de Logons
 
