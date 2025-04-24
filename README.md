@@ -42,13 +42,17 @@ Invoke-Expression "$($Script.Content)"
 
 ### Instalação do Active Directory
 
-Para instalar a role de Active Directory em um Windows Server limpo, execute o seguinte comando no PowerShell:
+Para instalar a role de Active Directory em um Windows Server limpo, execute o seguinte comando no PowerShell. O script usará o hostname atual do servidor para criar o domínio (ex: se o hostname for `ADLAB`, o domínio será `ADLAB.lan`):
 
 ```powershell
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/pobruno/ad-homologator/main/scripts/install_ad_role.ps1 -OutFile install_ad_role.ps1; .\install_ad_role.ps1
 ```
 
-Por padrão, o script utiliza o hostname `bionet` e o domínio `.lan`. Esses valores podem ser alterados ao passar parâmetros para o script.
+Por padrão, o script utiliza o sufixo de domínio `.lan`. Esse valor pode ser alterado ao passar o parâmetro `-DomainSuffix` para o script:
+
+```powershell
+.\install_ad_role.ps1 -DomainSuffix .local
+```
 
 ### Descrição de Scripts
 
