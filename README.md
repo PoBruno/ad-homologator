@@ -40,6 +40,16 @@ $Script = Invoke-WebRequest https://raw.githubusercontent.com/pobruno/ad-homolog
 Invoke-Expression "$($Script.Content)"
 ```
 
+### Instalação do Active Directory
+
+Para instalar a role de Active Directory em um Windows Server limpo, execute o seguinte comando no PowerShell:
+
+```powershell
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/pobruno/ad-homologator/main/scripts/install_ad_role.ps1 -OutFile install_ad_role.ps1; .\install_ad_role.ps1
+```
+
+Por padrão, o script utiliza o hostname `bionet` e o domínio `.lan`. Esses valores podem ser alterados ao passar parâmetros para o script.
+
 ### Descrição de Scripts
 
 Este projeto contém scripts PowerShell para:
