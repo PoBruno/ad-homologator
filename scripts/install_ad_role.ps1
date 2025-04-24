@@ -10,9 +10,15 @@ param(
   [string]$SafeModeAdministratorPassword  = "P@ssw0rd!"
 )
 
+$pending = (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName').ComputerName -ne (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName').ComputerName
+if ($pending) {
+    Write-Host "Há uma alteração pendente no nome do computador. Reinicie o servidor antes de prosseguir."
+    exit
+}
+
 Import-Module ServerManager
-#Install-WindowsFeature AD-Domain-Services -IncludeAllSubFeature -IncludeManagementTools
-#Install-WindowsFeature DNS -IncludeAllSubFeature -IncludeManagementTools
+Install-WindowsFeature AD-Domain-Services -IncludeAllSubFeature -IncludeManagementTools
+Install-WindowsFeature DNS -IncludeAllSubFeature -IncludeManagementTools
 Import-Module ADDSDeployment
 Import-Module DnsServer
 
@@ -29,4 +35,3 @@ Install-ADDSForest `
 Write-Host "Reboot..."
 pause
 Restart-Computer -Force
-
