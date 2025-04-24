@@ -12,7 +12,8 @@ param(
 
 $pending = (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName').ComputerName -ne (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\ComputerName\ActiveComputerName').ComputerName
 if ($pending) {
-    Write-Host "Há uma alteração pendente no nome do computador. Reinicie o servidor antes de prosseguir."
+    Write-Host "Restart pending."
+    pause
     exit
 }
 
@@ -29,7 +30,8 @@ Install-ADDSForest `
   -SysvolPath $SysvolPath `
   -LogPath $LogPath `
   -SafeModeAdministratorPassword (ConvertTo-SecureString $SafeModeAdministratorPassword -AsPlainText -Force) `
-  -NoRebootOnCompletion
+  -NoRebootOnCompletion `
+  -Force
 
 # Reiniciar o servidor para concluir a configuração
 Write-Host "Reboot..."
